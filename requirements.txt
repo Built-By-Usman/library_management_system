@@ -5,3 +5,4 @@ PyJWT
 passlib[argon2]
 psycopg2-binary
 python-multipart
+uvicorn[standard]
