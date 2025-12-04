@@ -15,27 +15,27 @@ router=APIRouter(
 
 
 @router.get("/",response_model=List[showBookRM])
-def getAllBooks(db:Session=Depends(getDb),current_user:showUserRM=Depends(get_current_user)):
+def get_all_books(db:Session=Depends(getDb),current_user:showUserRM=Depends(get_current_user)):
     return all(db)
    
 
 
 @router.get("/{title}",response_model=showBookRM,)
-def getBookWithId(title:str,db:Session=Depends(getDb),current_user:showUserRM=Depends(get_current_user)):
+def get_book_by_id(title:str,db:Session=Depends(getDb),current_user:showUserRM=Depends(get_current_user)):
    return get(title=title,db=db)
 
 
 @router.post('/',response_model=showBookRM)
-def addBook(request:BookSchema,db:Session=Depends(getDb),current_user:showUserRM=Depends(get_current_user)):
+def add_book(request:BookSchema,db:Session=Depends(getDb),current_user:showUserRM=Depends(get_current_user)):
     return create(request=request,db=db)
         
 
 @router.delete('/{id}')
-def deleteBook(id:int,db:Session=Depends(getDb),current_user:showUserRM=Depends(get_current_user)):
+def delete_book(id:int,db:Session=Depends(getDb),current_user:showUserRM=Depends(get_current_user)):
     return delete(id=id,db=db)
 
 
 @router.put('/{id}')
-def updateBook(id:int,request:BookSchema,db:Session=Depends(getDb),current_user:showUserRM=Depends(get_current_user)):
+def update_book(id:int,request:BookSchema,db:Session=Depends(getDb),current_user:showUserRM=Depends(get_current_user)):
     return update(id=id,request=request,db=db)
 

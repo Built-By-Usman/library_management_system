@@ -15,10 +15,10 @@ router=APIRouter(
 )
 
 @router.get('/',response_model=List[BorrowReturnRM])
-def getAllReturn(db:Session=Depends(getDb),current_user:get_current_user=Depends()):
+def get_all_return_book(db:Session=Depends(getDb),current_user:get_current_user=Depends()):
     return get(id=current_user.id,db=db,)
 
 
 @router.post('/',response_model=BorrowReturnRM)
-def addReturnBook(request:BorrowReturnSchema,db:Session=Depends(getDb),current_user:get_current_user=Depends()):
+def add_return_book(request:BorrowReturnSchema,db:Session=Depends(getDb),current_user:get_current_user=Depends()):
     return add(request=request,db=db,id=current_user.id)
