@@ -39,6 +39,7 @@ class showOwnerRM(BaseModel):
 
 
 class showBookRM(BaseModel):
+    id:int
     title:str
     author:str
     category:str
