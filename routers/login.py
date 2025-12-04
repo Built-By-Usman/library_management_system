@@ -11,7 +11,7 @@ from fastapi.security import  OAuth2PasswordRequestForm
 
 router = APIRouter(
     tags=['Authentication'],
-    prefix='/auth'  # Good practice
+    prefix='/auth'  
 )
 
 @router.post('/login')
@@ -29,6 +29,7 @@ def login(
         )
     
     access_token = create_access_token(data={"sub": user.email})
-    return {"access_token": access_token, "token_type": "bearer"}
+    return {"access_token": access_token, "token_type": "bearer","email": user.email,"id":user.id,
+        "name": user.name}
 
 
