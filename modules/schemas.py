@@ -43,7 +43,6 @@ class showBookRM(BaseModel):
     title:str
     author:str
     category:str
-    copies:int
     owner:showOwnerRM
 
     model_config={
