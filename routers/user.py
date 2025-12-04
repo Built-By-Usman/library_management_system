@@ -25,7 +25,7 @@ def getUserWithId(id:int,db:Session=Depends(getDb),current_user:showUserRM=Depen
 
 
 @router.post('/',response_model=showUserRM)
-def addUser(request:UserSchema,db:Session=Depends(getDb),current_user:showUserRM=Depends(get_current_user)):
+def addUser(request:UserSchema,db:Session=Depends(getDb)):
     return create(request=request,db=db)
     
     
