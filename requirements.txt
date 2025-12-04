@@ -3,7 +3,9 @@ sqlalchemy
 pydantic
 PyJWT
 passlib[argon2]
+argon2-cffi
+argon2-cffi-bindings
 psycopg2-binary
 python-multipart
 uvicorn[standard]
-pwdlib
+pwdlib[argon2]

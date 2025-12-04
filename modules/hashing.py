@@ -8,3 +8,4 @@ def getHashedPassword(password):
 
 def verifyPassword(plainPassword,hashedPassword):
     return PasswordHash.verify(plainPassword,hashedPassword)
+
