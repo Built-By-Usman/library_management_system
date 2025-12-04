@@ -7,7 +7,7 @@ from .database import getDb
 from models import UserModel
 
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
 
 async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)],db: Session = Depends(getDb)):
     credentials_exception = HTTPException(
