@@ -44,6 +44,7 @@ def create(request:BorrowReturnSchema,db:Session,user_id:int):
         "title": book.title,
         "author": book.author,
         "category": book.category,
+        "book_id":book.id,
         "owner": {"name": book.owner.name, "email": book.owner.email},
         "borrow_date": borrowedBook.borrow_date,
         "return_date": borrowedBook.return_date
