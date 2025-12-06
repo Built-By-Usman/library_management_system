@@ -15,6 +15,7 @@ def get(id:int,db:Session):
             "title": b.book.title,
             "author": b.book.author,
             "category":b.book.category,
+            'book_id':b.book_id,
             "owner":b.book.owner,
             "borrow_date": b.borrow_date,
             "return_date": b.return_date,
