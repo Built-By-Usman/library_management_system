@@ -60,6 +60,7 @@ class BorrowReturnRM(BaseModel):
     author:str
     category:str
     owner:showOwnerRM
+    book_id:int
     borrow_date: datetime
     return_date: datetime | None
 
