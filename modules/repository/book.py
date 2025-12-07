@@ -19,41 +19,22 @@ def get(title:str,db:Session):
 
 
 
-def create(request: BookSchema, db: Session):
-    user = db.query(UserModel).filter(UserModel.id == request.user_id).first()
-    if not user:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"user with id:{request.user_id} not found"
-        )
+def create(request:BookSchema,db:Session):
+    user=db.query(UserModel).filter(UserModel.id==request.user_id).first()
+    if user:
+        book=BookModel(title=request.title,author=request.author,ISBN=request.ISBN,user_id=request.user_id,copies=request.copies,category=request.category)
 
-    # Ensure ISBN is stored as string
-    isbn_str = str(request.ISBN) if request.ISBN is not None else "unknown"
+        try:
+            db.add(book)
+            db.commit()
+            db.refresh(book)
+            return book
+        except Exception as e:
+            raise HTTPException(status_code=status.HTTP_406_NOT_ACCEPTABLE,detail=f"Failed to add book:{e}")
+    else:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail=f"user with id:{request.user_id} not found")
 
-    book = BookModel(
-        title=request.title,
-        author=request.author,
-        ISBN=isbn_str,
-        user_id=request.user_id,
-        copies=request.copies,
-        category=request.category,
-        url=request.url
-    )
 
-    try:
-        db.add(book)
-        db.commit()
-        db.refresh(book)
-
-        # Convert ISBN to string in returned object as well
-        book.ISBN = str(book.ISBN)
-
-        return book
-    except Exception as e:
-        raise HTTPException(
-            status_code=status.HTTP_406_NOT_ACCEPTABLE,
-            detail=f"Failed to add book: {e}"
-        )
 
 
 
@@ -73,17 +54,10 @@ def delete(id:int, db:Session):
     db.commit()
     return {"detail":"book deleted successfully"}
 
-def update(id:int, request:BookSchema, db:Session):
-    book = db.query(BookModel).filter(BookModel.id == id)
+def update(id:int,request:BookSchema,db:Session):
+    book=db.query(BookModel).filter(BookModel.id==id)
     if not book:
-        raise HTTPException(status_code=404, detail=f"No book found with id:{id}")
-    
-    update_data = request.dict()
-    
-    # convert ISBN to string to avoid Flutter type error
-    if 'ISBN' in update_data and update_data['ISBN'] is not None:
-        update_data['ISBN'] = str(update_data['ISBN'])
-    
-    book.update(update_data, synchronize_session=False)
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail=f"No user found with id:{id}")
+    book.update(request.dict(),synchronize_session=False)
     db.commit()
     return {"detail":"book updated successfully"}
