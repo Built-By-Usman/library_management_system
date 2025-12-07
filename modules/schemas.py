@@ -10,6 +10,7 @@ class UserSchema(BaseModel):
 
 
 class BookSchema(BaseModel):
+    id:int
     title:str
     author:str
     category:str
