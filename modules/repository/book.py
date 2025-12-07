@@ -19,20 +19,41 @@ def get(title:str,db:Session):
 
 
 
-def create(request:BookSchema,db:Session):
-    user=db.query(UserModel).filter(UserModel.id==request.user_id).first()
-    if user:
-        book=BookModel(title=request.title,author=request.author,ISBN=request.ISBN,user_id=request.user_id,copies=request.copies,category=request.category)
+def create(request: BookSchema, db: Session):
+    user = db.query(UserModel).filter(UserModel.id == request.user_id).first()
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"user with id:{request.user_id} not found"
+        )
 
-        try:
-            db.add(book)
-            db.commit()
-            db.refresh(book)
-            return book
-        except Exception as e:
-            raise HTTPException(status_code=status.HTTP_406_NOT_ACCEPTABLE,detail=f"Failed to add book:{e}")
-    else:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail=f"user with id:{request.user_id} not found")
+    # Ensure ISBN is stored as string
+    isbn_str = str(request.ISBN) if request.ISBN is not None else "unknown"
+
+    book = BookModel(
+        title=request.title,
+        author=request.author,
+        ISBN=isbn_str,
+        user_id=request.user_id,
+        copies=request.copies,
+        category=request.category,
+        url=request.url
+    )
+
+    try:
+        db.add(book)
+        db.commit()
+        db.refresh(book)
+
+        # Convert ISBN to string in returned object as well
+        book.ISBN = str(book.ISBN)
+
+        return book
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_406_NOT_ACCEPTABLE,
+            detail=f"Failed to add book: {e}"
+        )
 
 
 
