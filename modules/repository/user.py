@@ -21,14 +21,19 @@ def get(id:int,db:Session):
 def create(request:UserSchema,db:Session):
     emailPattern=r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$"
     if re.fullmatch(emailPattern,request.email):
-        user=UserModel(name=request.name,email=request.email,password=getHashedPassword(request.password))
-        try:
-            db.add(user)
-            db.commit()
-            db.refresh(user)
-            return user
-        except Exception as e:
-            raise HTTPException(status_code=status.HTTP_406_NOT_ACCEPTABLE,detail=f"Failed to add user:{e}")
+        existingUser=db.query(UserModel).filter(request.email==UserModel.email).first()
+        if not user:
+            user=UserModel(name=request.name,email=request.email,password=getHashedPassword(request.password))
+            try:
+                db.add(user)
+                db.commit()
+                db.refresh(user)
+                return user
+            except Exception as e:
+                raise HTTPException(status_code=status.HTTP_406_NOT_ACCEPTABLE,detail=f"Failed to add user:{e}")
+        else:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,detail=f"This email is already registered")
+
     else:
         raise HTTPException(status_code=status.HTTP_406_NOT_ACCEPTABLE,detail="Please enter a valid email")
 

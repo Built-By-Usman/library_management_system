@@ -22,7 +22,8 @@ class BookModel(Base):
     category=Column(String)
     ISBN=Column(String)
     copies=Column(Integer)
-    user_id:int
+    user_id=Column(Integer)
+    url=Column(String,nullable=True)
 
     user_id=Column(Integer,ForeignKey("users.id"))
     owner=relationship("UserModel",back_populates="books")

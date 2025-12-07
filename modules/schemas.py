@@ -16,6 +16,7 @@ class BookSchema(BaseModel):
     ISBN:str
     copies:int
     user_id:int
+    url:Optional[str] = None
 
 
 
@@ -44,6 +45,7 @@ class showBookRM(BaseModel):
     author:str
     category:str
     owner:showOwnerRM
+    url:Optional[str] = None
 
     model_config={
         "from_attributes":True
