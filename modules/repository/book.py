@@ -1,7 +1,7 @@
 from fastapi import HTTPException,status
-from models import BookModel,UserModel
+from models import BookModel,UserModel,BorrowReturnModel
 from sqlalchemy.orm import Session
-from ..schemas import BookSchema,showBookRM
+from ..schemas import BookSchema
 
 def all(db:Session):
     books=db.query(BookModel).all()
@@ -36,11 +36,18 @@ def create(request:BookSchema,db:Session):
 
 
 
-def delete(id:int,db:Session):
-    book=db.query(BookModel).filter(BookModel.id==id).first()
+def delete(id:int, db:Session):
+    book = db.query(BookModel).filter(BookModel.id==id).first()
     if not book:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail=f"No book found with id:{id}")
-        
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"No book found with id:{id}")
+
+    borrow_exists = db.query(BorrowReturnModel).filter(BorrowReturnModel.book_id == id).first()
+    if borrow_exists:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Cannot delete book: it is referenced in BorrowReturn"
+        )
+
     db.delete(book)
     db.commit()
     return {"detail":"book deleted successfully"}
