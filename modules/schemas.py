@@ -39,17 +39,18 @@ class showOwnerRM(BaseModel):
     }
 
 
-
 class showBookRM(BaseModel):
-    id:int
-    title:str
-    author:str
-    category:str
-    owner:showOwnerRM
-    url:Optional[str] = None
+    id: int
+    title: str
+    author: str
+    category: str
+    ISBN: str             
+    copies: int            
+    owner: showOwnerRM
+    url: Optional[str] = None
 
-    model_config={
-        "from_attributes":True
+    model_config = {
+        "from_attributes": True
     }
 
 class BorrowReturnSchema(BaseModel):
