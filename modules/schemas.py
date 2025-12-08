@@ -18,12 +18,21 @@ class BookSchema(BaseModel):
     user_id:int
     url:Optional[str] = None
 
+class showUserBooks(BaseModel):
+    id:int
+    title:str
+    author:str
+    category:str
+    ISBN:str
+    copies:int
+    user_id:int
+    url:Optional[str] = None
 
 
 class showUserRM(BaseModel):
     name:str
     email:str
-    books:List[BookSchema]
+    books:List[showUserBooks]
 
     model_config={
         "from_attributes":True
