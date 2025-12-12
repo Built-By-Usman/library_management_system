@@ -15,17 +15,17 @@ router=APIRouter(
 # current_user:showUserRM=Depends(get_current_user)
 
 @router.get("/",response_model=List[showBookRM])
-def get_all_books(db:Session=Depends(getDb),):
+def get_all_books(db:Session=Depends(getDb),current_user:showUserRM=Depends(get_current_user)):
     return all(db)
    
 
 
 @router.post('/',response_model=showBookRM)
-def add_book(request:BookSchema,db:Session=Depends(getDb),):
+def add_book(request:BookSchema,db:Session=Depends(getDb),current_user:showUserRM=Depends(get_current_user)):
     return create(request=request,db=db)
 
 
 @router.put('/{id}')
-def update_book(id:int,request:BookSchema,db:Session=Depends(getDb),):
+def update_book(id:int,request:BookSchema,db:Session=Depends(getDb),current_user:showUserRM=Depends(get_current_user)):
     return update(id=id,request=request,db=db)
 
