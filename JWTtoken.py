@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta, timezone
 import jwt
 from jwt.exceptions import InvalidTokenError
-from .schemas import TokenData
+from schemas import TokenData
 
 SECRET_KEY = "e70722186f0987d9f7d6ab48558874f28b0eb099c3d2a596291186cdeb711c2e"
 ALGORITHM = "HS256"

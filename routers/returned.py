@@ -1,11 +1,10 @@
 from fastapi import APIRouter,Depends
 from sqlalchemy.orm import Session
-from modules.database import getDb
-from models import BorrowReturnModel
-from modules.schemas import BorrowReturnRM,BorrowReturnSchema
+from database import getDb
+from schemas import IssueReturnRM, ReturnSchema
 from typing import List
-from modules.oauth2 import get_current_user
-from modules.repository.returned import get,add
+from oauth2 import get_current_user
+from repository.returned import get,add
 
 
 
@@ -14,11 +13,11 @@ router=APIRouter(
     tags=['Returned']
 )
 
-@router.get('/',response_model=List[BorrowReturnRM])
+@router.get('/',response_model=List[IssueReturnRM])
 def get_all_return_book(db:Session=Depends(getDb),current_user:get_current_user=Depends()):
     return get(id=current_user.id,db=db,)
 
 
-@router.post('/',response_model=BorrowReturnRM)
-def add_return_book(request:BorrowReturnSchema,db:Session=Depends(getDb),current_user:get_current_user=Depends()):
+@router.post('/',response_model=IssueReturnRM)
+def add_return_book(request:ReturnSchema,db:Session=Depends(getDb),current_user:get_current_user=Depends()):
     return add(request=request,db=db,id=current_user.id)

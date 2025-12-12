@@ -1,11 +1,11 @@
 from fastapi import Depends,HTTPException,status
 from fastapi import APIRouter
 from typing import List
-from modules.schemas import UserSchema,showUserRM
+from schemas import UserSchema,showUserRM
 from sqlalchemy.orm import Session
-from modules.database import getDb
-from modules.repository.user import get,create,update,delete
-from modules.oauth2 import get_current_user
+from database import getDb
+from repository.user import get,create,update,delete
+from oauth2 import get_current_user
 
 
 router=APIRouter(
