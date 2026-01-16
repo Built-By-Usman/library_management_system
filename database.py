@@ -3,7 +3,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 
 # DATABASE_URL = os.getenv("DATABASE_URL")  # Read from environment variable
-DATABASE_URL = "postgresql://library_management_system_o52u_user:2wPPHn1MKfrkProks9SOJwVTyfPN7HBG@dpg-d4o6qihr0fns73e47n8g-a.oregon-postgres.render.com/library_management_system_o52u" 
+DATABASE_URL = "postgresql://library_management_system_e80l_user:zGH8TC4AsfrPJEX6kO66m9CT3Zr92SzI@dpg-d5l8vmqli9vc73cku880-a/library_management_system_e80l" 
 
 if not DATABASE_URL:
     raise ValueError("DATABASE_URL environment variable is not set")
